@@ -49,7 +49,6 @@ module Savon
 
     def call(locals = {}, &block)
       builder = build(locals, &block)
-
       response = Savon.notify_observers(@name, builder, @globals, @locals)
       response ||= call_with_logging build_request(builder)
 

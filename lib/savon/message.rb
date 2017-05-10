@@ -4,7 +4,7 @@ require "gyoku"
 module Savon
   class Message
 
-    def initialize(message_tag, namespace_identifier, types, used_namespaces, message, element_form_default, key_converter, unwrap)
+    def initialize(message_tag, namespace_identifier, types, used_namespaces, message, element_form_default, key_converter, unwrap,delete_root)
       @message_tag = message_tag
       @namespace_identifier = namespace_identifier
       @types = types
@@ -14,6 +14,7 @@ module Savon
       @element_form_default = element_form_default
       @key_converter = key_converter
       @unwrap = unwrap
+      @delete_root = delete_root
     end
 
     def to_s
@@ -30,7 +31,11 @@ module Savon
         :unwrap               => @unwrap
       }
 
-      Gyoku.xml(@message, gyoku_options)
+      res = Gyoku.xml(@message, gyoku_options)
+      if @delete_root && root_key = @message.keys.first
+        res = res.gsub("<#{root_key}>",'').gsub("</#{root_key}>",'')
+      end
+      res
     end
 
   end

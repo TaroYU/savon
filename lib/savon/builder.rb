@@ -161,7 +161,7 @@ module Savon
       @wsdl.soap_input(@operation_name.to_sym)[message_tag].each_pair do |message, type|
         break if @locals[:message].nil?
         message_locals = @locals[:message][message.snakecase.to_sym]
-        message_content = Message.new(message_tag, namespace_identifier, @types, @used_namespaces, message_locals, :unqualified, @globals[:convert_request_keys_to], @globals[:unwrap]).to_s
+        message_content = Message.new(message_tag, namespace_identifier, @types, @used_namespaces, message_locals, :unqualified, @globals[:convert_request_keys_to], @globals[:unwrap],@globals[:delete_root]).to_s
         messages << "<#{message} xsi:type=\"#{type.join(':')}\">#{message_content}</#{message}>"
       end
       messages
@@ -192,7 +192,7 @@ module Savon
       element_form_default = @globals[:element_form_default] || @wsdl.element_form_default
       # TODO: clean this up! [dh, 2012-12-17]
       Message.new(message_tag, namespace_identifier, @types, @used_namespaces, @locals[:message],
-                  element_form_default, @globals[:convert_request_keys_to], @globals[:unwrap])
+                  element_form_default, @globals[:convert_request_keys_to], @globals[:unwrap],@globals[:delete_root])
     end
 
     def namespace_identifier

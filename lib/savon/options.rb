@@ -343,6 +343,23 @@ module Savon
     def follow_redirects(follow_redirects)
       @options[:follow_redirects] = follow_redirects
     end
+
+    #delete root
+    #Example
+    #<ws:retriveMaterial>
+    #  <retriveMaterial>
+    #    <materialCode>10066821</materialCode>
+    #  </retriveMaterial>
+    #</ws:retriveMaterial>
+    #delete
+    #<ws:retriveMaterial>
+    #  <materialCode>10066821</materialCode>
+    #</ws:retriveMaterial>
+    def delete_root(bool = false)
+      @options[:delete_root] = bool
+    end
+
+
   end
 
   class LocalOptions < Options
